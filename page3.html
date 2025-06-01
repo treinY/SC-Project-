@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Philosophical Password Recovery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Glint&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Glint', sans-serif;
+      background: #262626;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 5% 10px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+    }
+    p.subtext {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 30px;
+    }
+    .question-box {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 18px;
+      color: #444;
+      background: #F8F8F8;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      width: 80%;
+      max-width: 400px;
+    }
+    input {
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid #CCCCCC;
+      width: 70%;
+      max-width: 300px;
+      font-size: 16px;
+    }
+    .error {
+      color: #FF0000;
+      font-size: 14px;
+      margin-top: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .show-error {
+      opacity: 1;
+    }
+    .shake {
+      animation: shake 0.3s ease-in-out;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background: #333;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+    button:hover {
+      background: #252525;
+    }
+    button:active {
+      transform: scale(0.97);
+    }
+    .success-btn {
+      background: #28a745 !important;
+      color: white;
+      transition: background 0.3s;
+    }
+    .reveal-box {
+      margin-top: 25px;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      color: #333;
+      opacity: 0;
+      animation: fadeIn 0.3s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Question</h1>
+  <p class="subtext">Answer correctly to reveal your password</p>
+
+  <div class="question-box">"True knowledge exists in knowing that you know nothing"</div>
+
+  <input type="text" id="answer" placeholder="Type your answer here..." />
+  <div class="error" id="error-msg">Incorrect. The wise think deeper.</div>
+
+  <button id="submit-btn">Answer</button>
+
+  <div class="reveal-box" id="reveal"></div>
+
+  <script>
+    const correctAnswer = "Socrates1381";
+    const input = document.getElementById("answer");
+    const btn = document.getElementById("submit-btn");
+    const errorMsg = document.getElementById("error-msg");
+    const reveal = document.getElementById("reveal");
+
+    function showError() {
+      input.classList.add("shake");
+      errorMsg.classList.add("show-error");
+      input.style.border = "1px solid #FF0000";
+      setTimeout(() => input.classList.remove("shake"), 300);
+    }
+
+    function typeText(element, text, speed) {
+      let i = 0;
+      const interval = setInterval(() => {
+        element.textContent += text.charAt(i);
+        i++;
+        if (i === text.length) clearInterval(interval);
+      }, speed);
+    }
+
+    btn.addEventListener("click", () => {
+      const val = input.value.trim();
+      if (val === correctAnswer) {
+        input.style.border = "1px solid #CCCCCC";
+        errorMsg.classList.remove("show-error");
+        btn.classList.add("success-btn");
+        btn.textContent = "✓";
+
+        setTimeout(() => {
+          reveal.style.opacity = "1";
+          typeText(reveal, "Your password: 138152093",
+          50);
+        }, 300);
+      } else {
+        showError();
+      }
+    });
+  </script>
+</body>
+</html>

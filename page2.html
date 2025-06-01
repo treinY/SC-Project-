@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login</title>
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; 
+    background: #262626; /* charcoal black */
+    font-family: 'Inter', 'Montserrat', sans-serif;
+    color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 20%;
+  }
+  /* Fade-in animation for form */
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  /* Shake animation for errors */
+  @keyframes shake {
+    0%, 100% {transform: translateX(0);}
+    20%, 60% {transform: translateX(-5px);}
+    40%, 80% {transform: translateX(5px);}
+  }
+  form {
+    background: peachpuff /* slate gray */
+    padding: 2.5rem 3rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    max-width: 360px;
+    width: 100%;
+    animation: fadeIn 0.6s ease forwards;
+  }
+  label {
+    display: block;
+    font-weight: 300;
+    font-size: 14px;
+    margin-bottom: 0.35rem;
+    color: #bbb;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-weight: 500;
+    font-size: 17px;
+    color: #eee;
+    background: #3a3a3a; /* soft silver */
+    border: 1px solid #555;
+    border-radius: 3px;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s ease;
+  }
+  input::placeholder {
+    color: #999;
+  }
+  input:focus {
+    outline: none;
+    border-color: #777;
+    box-shadow: 0 0 5px rgba(119,119,119,0.4);
+  }
+  input.error {
+    border-color: #FF6B6B;
+    animation: shake 0.3s;
+  }
+  button {
+    width: 100%;
+    background: #555; /* dark gray */
+    color: #eee;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 0;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #444;
+  }
+  .error-msg {
+    margin-top: 0.6rem;
+    color: #FF6B6B;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    min-height: 1.2rem;
+    user-select: none;
+  }
+  .forgot-link {
+    display: block;
+    margin-top: 1.4rem;
+    font-size: 14px;
+    color: #777;
+    text-align: right;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .forgot-link:hover {
+    color: #999;
+  }
+  /* Responsive */
+  @media (max-width: 480px) {
+    body {
+      padding: 0 10%;
+    }
+    form {
+      padding: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<form id="loginForm" novalidate>
+  <label for="username">Username</label>
+  <input 
+    type="text" 
+    id="username" 
+    name="username" 
+    placeholder="Username" 
+    autocomplete="off" 
+    spellcheck="false"
+  />
+  
+  <label for="password">Password</label>
+  <input 
+    type="password" 
+    id="password" 
+    name="password" 
+    placeholder="Password" 
+    autocomplete="off"
+    spellcheck="false"
+  />
+  
+  <button type="submit">Login</button>
+  <div class="error-msg" id="errorMsg"></div>
+  <a href="page3.html" class="forgot-link">Forgot Password?</a>
+</form>
+
+<script>
+  const form = document.getElementById('loginForm');
+  const usernameInput = form.username;
+  const passwordInput = form.password;
+  const errorMsg = document.getElementById('errorMsg');
+
+  const VALID_USERNAME = "Thurein Win Kyi";
+  const VALID_PASSWORD = "138152093";
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    // Clear previous errors
+    errorMsg.textContent = '';
+    usernameInput.classList.remove('error');
+    passwordInput.classList.remove('error');
+
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+
+    let valid = true;
+
+    // Validate username exact match (case & space sensitive)
+    if(username !== VALID_USERNAME) {
+      usernameInput.classList.add('error');
+      valid = false;
+    }
+    // Validate password exact match (digits only)
+    if(password !== VALID_PASSWORD) {
+      passwordInput.classList.add('error');
+      valid = false;
+    }
+
+    if(!valid) {
+      errorMsg.textContent = "Invalid credentials";
+      return;
+    }
+
+    // If valid, redirect to page4.html
+    window.location.href = 'page4.html';
+  });
+
+  // Optional: remove error class on input when user types again
+  usernameInput.addEventListener('input', () => {
+    usernameInput.classList.remove('error');
+    errorMsg.textContent = '';
+  });
+  passwordInput.addEventListener('input', () => {
+    passwordInput.classList.remove('error');
+    errorMsg.textContent = '';
+  });
+</script>
+
+</body>
+</html>
